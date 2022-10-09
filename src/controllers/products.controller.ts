@@ -3,10 +3,13 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
   Query,
+  Res,
 } from '@nestjs/common';
 
 @Controller('products')
@@ -28,13 +31,20 @@ export class ProductsController {
   }
 
   @Get('/:id')
+  @HttpCode(HttpStatus.ACCEPTED)
   getOne(@Param('id') id: string) {
-    return `Producto ${id}`;
+    return {
+      message: `Producto ${id}`,
+      data: {},
+    };
   }
 
   @Put('/:id')
-  update(@Param('id') id: string) {
-    return `Actualizar producto ${id}`;
+  update(@Param('id') id: string, @Body() payload: any) {
+    return {
+      message: `Producto ${id} actualizado`,
+      data: payload,
+    };
   }
 
   @Delete('/:id')
