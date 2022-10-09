@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -34,7 +35,7 @@ export class ProductsController {
 
   @Get('/:id')
   @HttpCode(HttpStatus.ACCEPTED)
-  getOne(@Param('id') id: string) {
+  getOne(@Param('id', ParseIntPipe) id: number) {
     return {
       message: `Producto ${id}`,
       data: this.productsService.findOne(+id),
