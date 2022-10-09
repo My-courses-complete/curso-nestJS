@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -11,27 +12,33 @@ import {
 @Controller('products')
 export class ProductsController {
   @Get()
-  getProducts(@Query('limit') limit = 100, @Query('offset') offset = 50) {
-    return `Limit: ${limit} - Offset: ${offset}`;
+  get(@Query('limit') limit = 100, @Query('offset') offset = 50) {
+    return {
+      message: `Productos ${limit} ${offset}`,
+      data: [],
+    };
   }
 
   @Post()
-  createProduct() {
-    return 'Crear producto';
+  create(@Body() payload: any) {
+    return {
+      message: 'Producto creado',
+      data: payload,
+    };
   }
 
   @Get('/:id')
-  getProduct(@Param('id') id: string) {
+  getOne(@Param('id') id: string) {
     return `Producto ${id}`;
   }
 
   @Put('/:id')
-  updateProduct(@Param('id') id: string) {
+  update(@Param('id') id: string) {
     return `Actualizar producto ${id}`;
   }
 
   @Delete('/:id')
-  deleteProduct(@Param('id') id: string) {
+  delete(@Param('id') id: string) {
     return `Eliminar producto ${id}`;
   }
 }
