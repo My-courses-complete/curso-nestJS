@@ -9,7 +9,6 @@ import {
   Post,
   Put,
   Query,
-  Res,
 } from '@nestjs/common';
 
 @Controller('products')
