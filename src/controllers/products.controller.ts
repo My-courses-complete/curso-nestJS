@@ -10,14 +10,17 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { ProductsService } from 'src/services/products.service';
 
 @Controller('products')
 export class ProductsController {
+  constructor(private productsService: ProductsService) {}
+
   @Get()
   get(@Query('limit') limit = 100, @Query('offset') offset = 50) {
     return {
       message: `Productos ${limit} ${offset}`,
-      data: [],
+      data: this.productsService.findAll(),
     };
   }
 
@@ -25,7 +28,7 @@ export class ProductsController {
   create(@Body() payload: any) {
     return {
       message: 'Producto creado',
-      data: payload,
+      data: this.productsService.create(payload),
     };
   }
 
@@ -34,7 +37,7 @@ export class ProductsController {
   getOne(@Param('id') id: string) {
     return {
       message: `Producto ${id}`,
-      data: {},
+      data: this.productsService.findOne(+id),
     };
   }
 
@@ -42,12 +45,15 @@ export class ProductsController {
   update(@Param('id') id: string, @Body() payload: any) {
     return {
       message: `Producto ${id} actualizado`,
-      data: payload,
+      data: this.productsService.update(+id, payload),
     };
   }
 
   @Delete('/:id')
   delete(@Param('id') id: string) {
-    return `Eliminar producto ${id}`;
+    this.productsService.delete(+id);
+    return {
+      message: `Producto ${id} eliminado`,
+    };
   }
 }
