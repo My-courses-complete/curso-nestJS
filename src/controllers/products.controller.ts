@@ -11,6 +11,8 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { CreateProductDto, UpdateProductDto } from 'src/dtos/products.dtos';
+// import { ParseIntPipe } from 'src/common/parse-int.pipe';
 import { ProductsService } from 'src/services/products.service';
 
 @Controller('products')
@@ -26,7 +28,7 @@ export class ProductsController {
   }
 
   @Post()
-  create(@Body() payload: any) {
+  create(@Body() payload: CreateProductDto) {
     return {
       message: 'Producto creado',
       data: this.productsService.create(payload),
@@ -43,7 +45,7 @@ export class ProductsController {
   }
 
   @Put('/:id')
-  update(@Param('id') id: string, @Body() payload: any) {
+  update(@Param('id') id: string, @Body() payload: UpdateProductDto) {
     return {
       message: `Producto ${id} actualizado`,
       data: this.productsService.update(+id, payload),
