@@ -42,7 +42,7 @@ export class ProductsService {
   update(id: number, payload: UpdateProductDto): Product {
     const product = this.findOne(id);
     if (!product) {
-      return null;
+      throw new NotFoundException(`Product #${id} not found`);
     }
     const index = this.products.findIndex((item) => item.id === id);
     this.products[index] = {
@@ -54,6 +54,10 @@ export class ProductsService {
 
   delete(id: number) {
     const index = this.products.findIndex((item) => item.id === id);
-    return this.products.splice(index, 1);
+    if (index === -1) {
+      throw new NotFoundException(`Product #${id} not found`);
+    }
+    this.products.splice(index, 1);
+    return true;
   }
 }
