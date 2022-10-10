@@ -8,6 +8,7 @@ import { firstValueFrom } from 'rxjs';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { environments } from './enviroments';
+import config from './config';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { environments } from './enviroments';
     ConfigModule.forRoot({
       envFilePath: environments[process.env.NODE_ENV] || '.env',
       isGlobal: true,
+      load: [config],
     }),
   ],
   controllers: [AppController],
