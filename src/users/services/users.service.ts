@@ -1,5 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Client } from 'pg';
+
 import { ProductsService } from 'src/products/services/products.service';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { User } from '../entities/user.entity';
@@ -8,7 +9,7 @@ import { User } from '../entities/user.entity';
 export class UsersService {
   constructor(
     private productServices: ProductsService,
-    private configService: ConfigService,
+    @Inject('PG') private clientPG: Client,
   ) {}
 
   private counter = 1;
@@ -21,10 +22,18 @@ export class UsersService {
     },
   ];
 
+  getNowPG() {
+    return new Promise((resolve, reject) => {
+      this.clientPG.query('SELECT NOW()', (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res.rows[0]);
+      });
+    });
+  }
+
   findAll() {
-    const apiKey = this.configService.get('API_KEY');
-    const dbName = this.configService.get('DATABASE_NAME');
-    console.log(apiKey, dbName);
     return this.users;
   }
 

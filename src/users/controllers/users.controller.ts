@@ -23,6 +23,11 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Get('/now')
+  getNow() {
+    return this.usersService.getNowPG();
+  }
+
   @Get('/:id')
   getUser(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findOne(+id);
