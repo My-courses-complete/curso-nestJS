@@ -3,6 +3,7 @@ import { Client } from 'pg';
 
 import { ProductsService } from 'src/products/services/products.service';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
+import { Order } from '../entities/order.entity';
 import { User } from '../entities/user.entity';
 
 @Injectable()
@@ -77,7 +78,7 @@ export class UsersService {
     return true;
   }
 
-  getOrdersByUser(id: number) {
+  async getOrdersByUser(id: number) {
     const user = this.findOne(id);
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
@@ -85,7 +86,7 @@ export class UsersService {
     return {
       date: new Date(),
       user,
-      products: this.productServices.findAll(),
+      products: await this.productServices.findAll(),
     };
   }
 }

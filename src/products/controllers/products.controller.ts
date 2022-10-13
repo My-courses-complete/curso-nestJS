@@ -23,43 +23,43 @@ export class ProductsController {
 
   @Get()
   @ApiOperation({ summary: 'List of products' })
-  get(@Query('limit') limit = 100, @Query('offset') offset = 50) {
+  async get(@Query('limit') limit = 100, @Query('offset') offset = 50) {
     return {
       message: `Productos ${limit} ${offset}`,
-      data: this.productsService.findAll(),
+      data: await this.productsService.findAll(),
     };
   }
 
   @Post()
-  create(@Body() payload: CreateProductDto) {
+  async create(@Body() payload: CreateProductDto) {
     return {
       message: 'Producto creado',
-      data: this.productsService.create(payload),
+      data: await this.productsService.create(payload),
     };
   }
 
   @Get('/:id')
   @HttpCode(HttpStatus.ACCEPTED)
-  getOne(@Param('id', ParseIntPipe) id: number) {
+  async getOne(@Param('id', ParseIntPipe) id: number) {
     return {
       message: `Producto ${id}`,
-      data: this.productsService.findOne(+id),
+      data: await this.productsService.findOne(+id),
     };
   }
 
   @Put('/:id')
-  update(@Param('id') id: string, @Body() payload: UpdateProductDto) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateProductDto,
+  ) {
     return {
       message: `Producto ${id} actualizado`,
-      data: this.productsService.update(+id, payload),
+      data: await this.productsService.update(+id, payload),
     };
   }
 
   @Delete('/:id')
-  delete(@Param('id') id: string) {
-    this.productsService.delete(+id);
-    return {
-      message: `Producto ${id} eliminado`,
-    };
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    return await this.productsService.delete(id);
   }
 }
