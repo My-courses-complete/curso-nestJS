@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import config from '../config';
 
 const API_KEY = '123456';
-const API_KEY_PROD = 'PROD123456';
 
 @Global()
 @Module({
@@ -31,7 +30,7 @@ const API_KEY_PROD = 'PROD123456';
   providers: [
     {
       provide: 'API_KEY',
-      useValue: process.env.NODE_ENV === 'prod' ? API_KEY_PROD : API_KEY,
+      useValue: API_KEY,
     },
     {
       provide: 'PG',
