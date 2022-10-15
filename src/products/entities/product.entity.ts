@@ -4,7 +4,9 @@ import {
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+import { Brand } from './brand.entity';
 
 @Entity()
 export class Product {
@@ -30,4 +32,6 @@ export class Product {
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
+  @ManyToOne(() => Brand, (brand) => brand.products)
+  brand: Brand;
 }
