@@ -7,11 +7,12 @@ import {
   ManyToOne,
   ManyToMany,
   Index,
+  JoinColumn,
 } from 'typeorm';
 import { Brand } from './brand.entity';
 import { Category } from './category.entity';
 
-@Entity()
+@Entity({ name: 'products' })
 // @Index(['name', 'price'])
 export class Product {
   @PrimaryGeneratedColumn()
@@ -28,16 +29,19 @@ export class Product {
   @Column({ type: 'varchar' })
   image: string;
   @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
   @UpdateDateColumn({
+    name: 'updated_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
   @ManyToOne(() => Brand, (brand) => brand.products)
+  @JoinColumn({ name: 'brand_id' })
   brand: Brand;
   @ManyToMany(() => Category, (category) => category.products, {
     nullable: false,

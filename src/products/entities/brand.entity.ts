@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Product } from './product.entity';
 
-@Entity()
+@Entity({ name: 'brands' })
 export class Brand {
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,11 +17,13 @@ export class Brand {
   @Column({ type: 'varchar', length: 255 })
   image: string;
   @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
   @UpdateDateColumn({
+    name: 'updated_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
