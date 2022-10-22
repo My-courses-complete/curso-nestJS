@@ -23,6 +23,10 @@ const API_KEY = '123456';
           database,
           synchronize: false,
           autoLoadEntities: true,
+          ssl:
+            process.env.NODE_ENV === 'production'
+              ? { rejectUnauthorized: false }
+              : false,
         };
       },
     }),
