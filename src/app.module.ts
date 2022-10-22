@@ -25,11 +25,7 @@ import config from './config';
       load: [config],
       validationSchema: Joi.object({
         API_KEY: Joi.number().required(),
-        POSTGRES_USER: Joi.string().required(),
-        POSTGRES_PASSWORD: Joi.string().required(),
-        POSTGRES_DB: Joi.string().required(),
-        POSTGRES_PORT: Joi.number().required(),
-        POSTGRES_HOST: Joi.string().required(),
+        DATABASE_URL: Joi.string().required(),
       }),
     }),
     AuthModule,
