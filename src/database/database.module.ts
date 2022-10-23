@@ -18,7 +18,10 @@ const API_KEY = '123456';
           url: configService.postgresUrl,
           synchronize: false,
           autoLoadEntities: true,
-          ssl: { rejectUnauthorized: false },
+          ssl:
+            process.env.NODE_ENV === 'production'
+              ? { rejectUnauthorized: false }
+              : false,
         };
       },
     }),
@@ -33,7 +36,10 @@ const API_KEY = '123456';
       useFactory: (configService: ConfigType<typeof config>) => {
         const client = new Client({
           connectionString: configService.postgresUrl,
-          ssl: { rejectUnauthorized: false },
+          ssl:
+            process.env.NODE_ENV === 'production'
+              ? { rejectUnauthorized: false }
+              : false,
         });
 
         client.connect();
