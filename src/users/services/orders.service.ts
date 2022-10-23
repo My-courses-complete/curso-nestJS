@@ -4,12 +4,14 @@ import { Repository } from 'typeorm';
 import { CreateOrderDto, UpdateOrderDto } from '../dtos/order.dto';
 import { Order } from '../entities/order.entity';
 import { CustomerService } from './customer.service';
+import { UsersService } from './users.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     private customerServices: CustomerService,
+    private userService: UsersService,
   ) {}
 
   findAll() {
@@ -23,6 +25,21 @@ export class OrdersService {
     });
     if (!order) {
       throw new NotFoundException(`Order #${id} not found`);
+    }
+    return order;
+  }
+
+  async findOneByCustomer(userId: number) {
+    const user = await this.userService.findOne(userId);
+    if (!user) {
+      throw new NotFoundException(`User #${userId} not found`);
+    }
+    const order = await this.orderRepository.findOne({
+      where: { customer: { id: user.customer.id } },
+      relations: ['items', 'items.product'],
+    });
+    if (!order) {
+      throw new NotFoundException(`Order #${userId} not found`);
     }
     return order;
   }
