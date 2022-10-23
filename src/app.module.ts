@@ -26,6 +26,7 @@ import config from './config';
       validationSchema: Joi.object({
         API_KEY: Joi.string().required(),
         DATABASE_URL: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
       }),
     }),
     AuthModule,

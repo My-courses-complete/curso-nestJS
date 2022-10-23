@@ -11,5 +11,6 @@ export default registerAs('config', () => {
       database: process.env.POSTGRES_DB,
     },
     apiKey: process.env.API_KEY,
+    jwtSecret: process.env.JWT_SECRET,
   };
 });
